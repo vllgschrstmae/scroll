@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA_Compatibble" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>RecoSelect</title>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#shop">Reco-Online Shops</a>
+        <a href="#about">About</a>
+      </nav>
+    </header>
+
+    <div class="container">
+      <!--section class="one"-->
+      <form id="Login" action="#">
+        <div class="wrapper">
+          <div class="form-box Login">
+            <h2>Login</h2>
+            <div class="input-box">
+              <input type="email" id="emailInput" />
+              <label>Email</label>
+            </div>
+            <div class="input-box">
+              <input type="password" id="passwordInput" />
+              <label>Password</label>
+            </div>
+            <button type="submit" class="btn">Log In</button>
+            <div class="login-register">
+              <p>
+                Don't have an account?
+                <a href="#Register" class="register-link">Register</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"
+      ></script>
+
+      <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import {
+          getDatabase,
+          set,
+          ref,
+        } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+        import {
+          getAuth,
+          signInWithEmailAndPassword,
+        } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js"; // Changed to signInWithEmailAndPassword
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyAP4_hNOoOUcXHHulbZlFAH41CUjSFNYPA",
+          authDomain: "recoselect.firebaseapp.com",
+          databaseURL:
+            "https://recoselect-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "recoselect",
+          storageBucket: "recoselect.appspot.com",
+          messagingSenderId: "632701275521",
+          appId: "1:632701275521:web:63e3448ded493d614bac80",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth(app);
+
+        let emailInput = document.getElementById("emailInput");
+        let passInput = document.getElementById("passwordInput");
+
+        let logInUser = (evt) => {
+          evt.preventDefault();
+
+          signInWithEmailAndPassword(auth, emailInput.value, passInput.value)
+            .then((userCredential) => {
+              console.log(userCredential);
+              alert("Log In Successful!");
+              window.location.href = "home.html"; // Redirect on successful login
+            })
+            .catch((error) => {
+              alert(error.message);
+              console.log(error.code);
+              console.log(error.message);
+              window.location.href = "register.html"; //When faced with an error while logging in
+            });
+        };
+
+        MainForm.addEventListener("submit", logInUser); // Ensure this matches your function name
+      </script>
+
+      <!--section class="two"-->
+      <form id="Register" action="#">
+        <div class="input-box">
+          <input type="text" id="usernameInput" />
+          <label>Username</label>
+        </div>
+        <div class="input-box">
+          <input type="email" id="emailInput" />
+          <label>Email</label>
+        </div>
+        <div class="input-box">
+          <input type="password" id="passwordInput" />
+          <label>Password</label>
+        </div>
+        <button type="submit" class="btn">Register</button>
+        <div class="login-register">
+          <p>
+            Already have an account?
+            <a href="#Login" class="login-link">Login</a>
+          </p>
+        </div>
+      </form>
+
+      <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import {
+          getDatabase,
+          set,
+          ref,
+        } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+        import {
+          getAuth,
+          createUserWithEmailAndPassword,
+        } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyAP4_hNOoOUcXHHulbZlFAH41CUjSFNYPA",
+          authDomain: "recoselect.firebaseapp.com",
+          databaseURL:
+            "https://recoselect-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "recoselect",
+          storageBucket: "recoselect.appspot.com",
+          messagingSenderId: "632701275521",
+          appId: "1:632701275521:web:63e3448ded493d614bac80",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth(app);
+
+        let EmailInput = document.getElementById("emailInput");
+        let PassInput = document.getElementById("passwordInput");
+        let usernameInput = document.getElementById("usernameInput");
+        let MainForm = document.getElementById("MainForm");
+
+        let RegisterUser = (evt) => {
+          evt.preventDefault();
+
+          createUserWithEmailAndPassword(
+            auth,
+            EmailInput.value,
+            PassInput.value,
+            usernameInput.value
+          )
+            .then((credentials) => {
+              console.log(credentials);
+              alert("You have successfully created an account!");
+              window.location.href = "login.html";
+            })
+            .catch((error) => {
+              alert(error.message);
+              console.log(error.code);
+              console.log(error.message);
+            });
+        };
+
+        SecondForm.addEventListener("submit", RegisterUser);
+      </script>
+
+      <script
+        type="module"
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      ></script>
+      <script
+        nomodule
+        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+      ></script>
+
+      <section id="home" class="three">
+        <h1>Welcome to RecoSelect Home Page!</h1>
+        <button type="button" id="logoutButton" class="btn">Log Out</button>
+      </section>
+
+      <section id="shop" class="four">
+        <h1>Fourth Page</h1>
+      </section>
+
+      <section id="about" class="five">
+        <h1>Fifth Page</h1>
+      </section>
+    </div>
+  </body>
+</html>
+
+<!-- 
+  <body>
+    <div class="nav">
+      <ul id="item">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#shop">Reco-Online Shop</a></li>
+        <li><a href="#about">About</a></li>
+        <div class="icon">
+          <i class="fa fa-facebook" aria-hidden="true"></i>
+          <i class="fa fa-twitter" aria-hidden="true"></i>
+          <i class="fa fa-youtube-play" aria-hidden="true"></i>
+        </div>
+      </ul>
+      <i id="bar" class="fa fa-bars" aria-hidden="true"></i>
+    </div>
+
+    <div class="back">
+      <div class="overlay"></div>
+    </div>
+
+    <form id="MainForm" action="#">
+      <div class="wrapper">
+        <div class="form-box Login">
+          <h2>Login</h2>
+          <div class="input-box">
+            <input type="email" id="emailInput" />
+            <label>Email</label>
+          </div>
+          <div class="input-box">
+            <input type="password" id="passwordInput" />
+            <label>Password</label>
+          </div>
+
+          <button type="submit" class="btn">Log In</button>
+
+          <div class="login-register">
+            <p>
+              Don't have an account?
+              <a href="register.html" class="register-link">Register</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form id="SecondForm" action="#">
+      <div class="input-box">
+        <input type="text" id="usernameInput" />
+        <label>Username</label>
+      </div>
+      <div class="input-box">
+        <input type="email" id="emailInput" />
+        <label>Email</label>
+      </div>
+      <div class="input-box">
+        <input type="password" id="passwordInput" />
+        <label>Password</label>
+      </div>
+      <button type="submit" class="btn">Register</button>
+      <div class="login-register">
+        <p>
+          Already have an account?
+          <a href="login.html" class="login-link">Login</a>
+        </p>
+      </div>
+    </form>    
+  </body>
+-->
